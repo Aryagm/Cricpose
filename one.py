@@ -67,7 +67,7 @@ def shot(window):
                     keyboard.release(Key.enter)
                 else:
                     lst.append(False)
-                    shot = False               )
+                    shot = False
                         
             except:
                 pass
