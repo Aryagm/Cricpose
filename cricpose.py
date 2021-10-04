@@ -4,10 +4,10 @@ import numpy as np
 from pynput.keyboard import Key, Controller
 import webview
 
+cap = cv2.VideoCapture(0)
 def shot(window):   
     keyboard = Controller()
     mp_pose = mp.solutions.pose
-    mp_drawing =  mp.solutions.drawing
 
     def calculate_angle(a,b,c):
         a = np.array(a) # First
@@ -24,8 +24,6 @@ def shot(window):
 
     lst = []
     lst = lst[-500:]
-    # VIDEO FEED
-    cap = cv2.VideoCapture(0)
     ## Setup mediapipe instance
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5, model_complexity=0, enable_segmentation=False, static_image_mode=False) as pose:
         while cap.isOpened():
@@ -62,34 +60,17 @@ def shot(window):
                 
                 if angle_l > 140 or angle_r > 120 and True not in lst:
                     lst.append(True)
-                    shot = True
                     keyboard.press(Key.enter)
                     keyboard.release(Key.enter)
                 else:
                     lst.append(False)
-                    shot = False
                         
             except:
                 pass
-            
-            
-            # Render detections
-            if shot == False:
-                mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
-                                        mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=2), 
-                                        mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2) 
-                                         )      
-            else:
-                mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)     
-            
-            cv2.imshow('Mediapipe Feed', image)
-
-            if cv2.getWindowProperty('frame', cv2.WND_PROP_VISIBLE) < 1:
-                cap.release()
-                cv2.destroyAllWindows()
-
 
 if __name__ == '__main__':
     window = webview.create_window('Cricket!', 'https://doodlecricket.github.io/#/')
     webview.start(shot, window)
+    cap.release()
+    cv2.destroyAllWindows()
     
