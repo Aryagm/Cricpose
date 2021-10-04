@@ -9,7 +9,6 @@ def shot(window):
     mp_pose = mp.solutions.pose
     mp_drawing =  mp.solutions.drawing
 
-
     def calculate_angle(a,b,c):
         a = np.array(a) # First
         b = np.array(b) # Mid
@@ -64,24 +63,11 @@ def shot(window):
                 if angle_l > 140 or angle_r > 120 and True not in lst:
                     lst.append(True)
                     shot = True
-                #    font = cv2.FONT_HERSHEY_PLAIN
-            #       cv2.putText(image, 'Shot!', 
-            #                          (10,height-10), font, 4, 
-            #                         (0,0,0), 5, cv2.LINE_AA) 
-                    #print("shot")
                     keyboard.press(Key.enter)
                     keyboard.release(Key.enter)
                 else:
                     lst.append(False)
-                    shot = False
-
-                    
-                
-                # Visualize angle
-                #cv2.putText(image, str(angle), 
-                #               tuple(np.multiply(elbow, [640, 480]).astype(int)), 
-                #               cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA
-                #                    )
+                    shot = False               )
                         
             except:
                 pass
